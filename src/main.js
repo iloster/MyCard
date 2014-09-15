@@ -7,41 +7,41 @@ var MainLayer = cc.LayerColor.extend({
 		this._super();
 		this.whiteBlocks = new Array();
 		this.labels = new Array();
-		this.setColor(cc.c4(126,126,126,126));
+		this.setColor(cc.c4(0,0,0,0));
 		this.level = 2;
 		n=3;
 		var size = cc.Director.getInstance().getWinSize();
-		var left_padding = (size.width - 49.5*n)/2;
-		var bottom_padding = (size.height - 49.5*n)/2;
 
-		//this.label = ccs.Label.create();
-		//this.label.setText("li");
-		//this.label.setColor(0,0,0);
+		//var left_padding = (size.width - 49.5*n)/2;
+		var left_padding = 95;	
+		//var bottom_padding = (size.height - 49.5*4)/2;
+		var bottom_padding = (size.height - 150*3)/2;
 		cc.log(size);
 		
-		for(var i=0; i < 3; i++)
+		for(var i=0; i < 4; i++)
 		{
 				//this.whiteBlock[i] = new Array(3);
 			this.whiteBlocks[i] = new Array();
 			this.labels[i] = new Array();
-			for(var j=0; j < 3; j++)
+			for(var j=0; j < 4; j++)
 			{
 				this.whiteBlocks[i][j] = cc.Sprite.create(s_whiteBlock);
 				//this.whiteBlocks[i][j].setPosition(31+31*i,51+51*j);
 				//this.whiteBlocks[i][j].setScale(0.25);
-				this.whiteBlocks[i][j].setPosition(left_padding+50*i,bottom_padding+50*j)
-				this.whiteBlocks[i][j].setScale(0.5)
+				this.whiteBlocks[i][j].setPosition(left_padding+150*i,bottom_padding+150*j)
+				this.whiteBlocks[i][j].setScale(1.5)
 				//this.whiteBlocks[i][j].setColor(255,255,255)
 				this.addChild(this.whiteBlocks[i][j],0);
 
-				this.labels[i][j] = ccs.Label.create();
+				/*this.labels[i][j] = ccs.Label.create();
 				this.labels[i][j].setText(i+ " "+j);
 				this.labels[i][j].setColor(0,0,0);
 				this.labels[i][j].setPosition(left_padding+50*i,bottom_padding+50*j);
-				this.addChild(this.labels[i][j],1);
+				this.addChild(this.labels[i][j],1);*/
 			}
 
 		}
+
 		/*
 		this.whiteBlock = cc.Sprite.create(s_whiteBlock);
 		this.whiteBlock.setPosition(size.width/2,size.height/2);
@@ -50,13 +50,22 @@ var MainLayer = cc.LayerColor.extend({
 		blockSize=this.whiteBlock.getBoundingBox();
 		cc.log(blockSize.width,blockSize.height);*/
 
-		this.randomNum = this.createRandom(3);
+		/*this.randomNum = this.createRandom(17
 		var row = this.getColandRow(randomNum).row;
 		var col = this.getColandRow(randomNum).col;
-		cc.log(row,col);
-		cc.log(this.randomNum);
+		cc.log(row,col);*/
+		randomNum = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+		cc.log(this.shuffle(randomNum));
+		//cc.log(this.randomNum);
 	},
-
+	//////////////////////////////////////////////////////
+	//乱序输出数组
+	///////////////////////////////////////////////////////
+	shuffle:function(o)
+	{
+		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		return o;
+	},
 	///////////////////////////////////////////////////////
 	getColandRow:function(randomNum)
 	{
