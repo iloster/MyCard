@@ -40,7 +40,8 @@
         appFiles:[
             'src/resource.js',
             'src/myApp.js',//add your own files in order here
-            'src/main.js'
+            'src/main.js',
+            'src/GameOverScene.js'
         ]
     };
 
