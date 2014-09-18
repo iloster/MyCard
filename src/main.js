@@ -54,13 +54,17 @@ var MainLayer = cc.LayerColor.extend({
 
 		//生成倒计时
 		this.timeBg = cc.Sprite.create(s_time);
-		this.timeBg.setPosition(size.width/2,100);
+		this.timeBg.setPosition(size.width/2,size.height - 70);
 		this.addChild(this.timeBg,1);
 		this.timeLabel = cc.LabelTTF.create(this.Time,"Arial",60);
 		this.timeLabel.setColor(255,255,255);
-		this.timeLabel.setPosition(size.width/2,100);
+		this.timeLabel.setPosition(size.width/2,size.height - 70);
 		this.addChild(this.timeLabel,1);
 		
+		this.copyRight = cc.LabelTTF.create("coding by loster","Arial", 40);
+		this.copyRight.setColor(0,0,0);
+		this.copyRight.setPosition(size.width/2,40);
+		this.addChild(this.copyRight);
 
 		 //倒计时
 		 this.schedule(this.updateTime,1,this.Time,0);
