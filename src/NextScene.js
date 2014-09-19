@@ -1,19 +1,21 @@
-var MainLayer = cc.LayerColor.extend({
+var NextLayer = cc.LayerColor.extend({
 	//whiteBlock:null,
 	//whiteBlocks:null,
 	//labels:null,
-	init:function () {
+	//levle:null
+	init:function (level) {
 		//////////////////
 		this._super();
 		this.whiteBlocks = new Array();
 		this.labels = new Array();
+		this.level = level;
 		this.setColor(cc.c4(180, 170, 160, 255));
 		//this.level = 2;
 		this.Tag = 1; //判断顺序
 		this.Flag = false;//游戏是否结束
 		this.Place = false;//是否触摸是否在卡片区域
-		this.Time =2;//倒计时
-		this.N = 3;
+		this.Time =2+level;//倒计时
+		this.N = 3+level;
 		Num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 		n=3;
 
@@ -88,6 +90,7 @@ var MainLayer = cc.LayerColor.extend({
 
 		 //倒计时
 		 this.schedule(this.updateTime,1,this.Time,0);
+		 return true;
 	},
 	//////////////////////////////////////////////////////
 	//乱序输出数组
@@ -134,14 +137,14 @@ var MainLayer = cc.LayerColor.extend({
 	        	cc.log("next");
 	        	if(this.Tag-1 ==this.N+1)
 	        		{
-	        			var scene = GameOverScene.create("Good Job! ",1);  
+	        			var scene = GameOverScene.create("Good Job! ",this.level+1);  
 						cc.Director.getInstance().replaceScene(scene);  
 	        		}
 	        }
 	        else
 	        {
 	        	cc.log("gameover");
-	        	var scene = GameOverScene.create("你通过了0关",0);  
+	        	var scene = GameOverScene.create("你通过了"+(this.level).toString()+"关",0);  
 				cc.Director.getInstance().replaceScene(scene);  
 				this.Tag = 1;
 			}
@@ -189,12 +192,31 @@ var MainLayer = cc.LayerColor.extend({
 ///////////////////////////////////////////////////////////
 });
 
-var MainScene = cc.Scene.extend({
-	onEnter:function(){
-		this._super();
-		
-		var layer = new MainLayer();
-		layer.init();
-		this.addChild(layer);
-	}
+NextLayer.create = function(level)
+{
+	var nextLayer = new NextLayer();
+	if(nextLayer && nextLayer.init(level))
+		return nextLayer;
+	return null;
+}
+
+var NextScene = cc.Scene.extend({
+    _layer:null,
+ 
+    init:function(level){
+        // 这个场景加入了一个GameOverLayer层
+        this._layer = NextLayer.create(level);
+        this.addChild(this._layer);
+ 
+        return true;
+    }
 });
+//这个方法创建了GameOverScene场景，并调用这个场景的init方法进行初始化
+NextScene.create = function(level){
+	cc.log("----NextScene.create---");
+    var scene = new NextScene();
+    if(scene && scene.init(level)){
+        return scene;
+    }
+    return null;
+}
